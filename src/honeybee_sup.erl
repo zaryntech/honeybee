@@ -4,23 +4,6 @@
 -export([init/1]).
 -include("records.hrl").
 -define(SERVER, ?MODULE).
-% Define the Mnesia tables and their specifications
--macros([ 
-  {tables, [
-    {account, account},
-    {account_reward, account_reward},
-    {account_history, account_history},
-    {account_delegation, account_delegation},
-    {account_registration, account_registration},
-    {address, address},
-    {address_total, address_total},
-    {address_utxo, address_utxo},
-    {address_transaction, address_transaction},
-    {block, block},
-    {pool, pool},
-    {transaction, transaction}
-  ]}
-]).
 
 start_link() ->
     % create schema and directory
@@ -86,6 +69,18 @@ start_link() ->
                                        {type, ordered_set}]),
 
     mnesia:create_table(transaction, [{attributes, record_info(fields, transaction)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(utxo_input, [{attributes, record_info(fields, utxo_input)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(utxo_output, [{attributes, record_info(fields, utxo_output)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(transaction_utxos, [{attributes, record_info(fields, transaction_utxos)},
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
 

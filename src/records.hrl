@@ -214,86 +214,86 @@
     redeemer_count % Count of redeemers within the transaction.
 }).
 -record(transaction_utxos, {
-    hash,
-    inputs,
-    outputs
+    hash, % Transaction hash
+    inputs, % Transaction inputs
+    outputs % Transaction outputs
 }).
 -record(transaction_stake, {
-    cert_index,
-    address,
-    registration
+    cert_index, % Index of the certificate within the transaction
+    address, % Delegation stake address
+    registration % Registration boolean, false if deregistration
 }).
 -record(transaction_delegation, {
-    index,
-    cert_index,
-    address,
-    pool_id,
-    active_epoch
+    cert_index, % Index of the certificate within the transaction
+    address, % Delegation stake address
+    pool_id, % Bech32 ID of delegated stake pool
+    active_epoch % Epoch in which the delegation becomes active
 }).
 -record(transaction_withdrawal, {
-    address,
-    amount
+    address, % Bech32 withdrawal address
+    amount % Withdrawal amount in Lovelaces
 }).
 -record(transaction_mir, {
-    pot,
-    cert_index,
-    address,
-    amount
+    pot, % Source of MIR funds
+    cert_index, % Index of the certificate within the transaction
+    address, % Bech32 stake address
+    amount % MIR amount in Lovelaces
 }).
 -record(transaction_pool_update, {
-    cert_index,
-    pool_id,
-    vrf_key,
-    pledge,
-    margin_cost,
-    fixed_cost,
-    reward_account,
+    cert_index, % Index of the certificate within the transaction
+    pool_id, % Bech32 encoded pool ID
+    vrf_key, % VRF key hash
+    pledge, % Stake pool certificate pledge in Lovelaces
+    margin_cost, % Margin tax cost of the stake pool
+    fixed_cost, % Fixed tax cost of the stake pool in Lovelaces
+    reward_account, % Bech32 reward account of the stake pool
     owners,
     metadata,
-    relays,
-    active_epoch
+    relays, % [PoolRelay]
+    active_epoch % Epoch that the delegation becomes active
 }).
 -record(transaction_pool_retire, {
-    cert_index,
-    pool_id,
-    retiring_epoch
+    cert_index, % Index of the certificate within the transaction
+    pool_id, % Bech32 stake pool ID
+    retiring_epoch % Retiring epoch
 }).
 -record(transaction_metadata, {
-    label,
-    json_metadata
+    label, % Metadata label
+    json_metadata % Content of the JSON metadata
 }).
 -record(transaction_metadata_cbor, {
-    label,
-    cbor_metadata
+    label, % Metadata label
+    cbor_metadata % Content of the CBOR metadata
 }).
 -record(transaction_redeemer, {
-    tx_index,
-    purpose,
-    unit_mem,
-    unit_steps,
-    fee 
+    tx_index, % Index of the redeemer within a transaction
+    purpose, % Validation purpose
+    unit_mem, % The budget in Memory to run a script
+    unit_steps, % The budget in Steps to run a script
+    fee % The fee consumed to run the script
 }).
 -record(utxo_input, {
-    address,
-    amount,
-    tx_hash,
-    output_index,
-    data_hash,
-    collateral
+    address, % Input address
+    amount, 
+    tx_hash, % Hash of the UTXO transaction
+    output_index, % UTXO index in the transaction
+    data_hash, % The hash of the transaction output datum
+    collateral % UTXO is a script collateral input
 }).
 -record(utxo_output, {
-    address,
-    amount,
-    data_hash,
-    output_index
+    address, % Output address
+    amount, % Transaction output amounts
+    data_hash, % The hash of the transaction output datum
+    output_index, % UTXO index in the transaction
+    collateral % UTXO is a script collateral output
 }).
 -record(pool_update_metadata, {
-    url,
-    hash,
-    ticker,
-    name,
-    description,
-    homepage
+    url, % URL to the stake pool metadata
+    hash, % Hash of the metadata file
+    ticker, % Ticker of the stake pool
+    name, % Name of the stake pool
+    description, % Description of the stake pool
+    homepage % Home page of the stake pool
 }).
 -record(relay, {
     ipv4,
