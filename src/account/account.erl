@@ -1,7 +1,7 @@
 -module(account).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, account_reward/0, account_history/0, account_delegation/0,
+-export([insert/0, account_reward/1, account_history/1, account_delegation/1,
 account_registration/0]).
 
 insert() ->
@@ -21,17 +21,20 @@ insert() ->
             pool_id = Pool},
         mnesia:write(Account),
         io:fwrite("Account Info: ~p~n", [Account]),
+        AccountReward = account_reward(Pool),
+        AccountHistory = account_history(Pool),
+        AccountDelegation = account_delegation(Pool),
         Bech32Address
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-account_reward() ->
+account_reward(Pool) ->
     Fun = fun() ->
         AccountReward = #account_reward{
             epoch = 0,
             amount = "",
-            pool_id = "",
+            pool_id = Pool,
             type = ""},
         mnesia:write(AccountReward),
         io:fwrite("~p~n", [AccountReward])
@@ -39,25 +42,25 @@ account_reward() ->
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-account_history() ->
+account_history(Pool) ->
     Fun = fun() ->
         AccountHistory = #account_history{
             active_epoch = 0,
             amount = "",
-            pool_id = ""},
+            pool_id = Pool},
         mnesia:write(AccountHistory),
         io:fwrite("~p~n", [AccountHistory])
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-account_delegation() ->
+account_delegation(Pool) ->
     Fun = fun() ->
         AccountDelegation = #account_delegation{
             active_epoch = 0,
             tx_hash = "",
             amount = "",
-            pool_id = ""},
+            pool_id = Pool},
         mnesia:write(AccountDelegation),
         io:fwrite("~p~n", [AccountDelegation])
     end,
