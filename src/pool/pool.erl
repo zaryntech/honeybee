@@ -1,14 +1,15 @@
 -module(pool).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, pool_history/0]).
+-export([insert/0, pool_history/0, pool_metadata/2, pool_relay/0, pool_delegator/0,
+pool_update/0]).
 
-insert() ->
+insert() -> 
     Fun = fun() ->
-        ID = nanoid:gen(),
+        PoolID = bech32_id:generate(35),
         HexID = hex_id:generate(12),
         Pool = #pool{
-            pool_id = ID,
+            pool_id = PoolID,
             hex = HexID,
             vrf_key = "", 
             blocks_minted = "", 
@@ -28,7 +29,12 @@ insert() ->
             retirement = ""},
         mnesia:write(Pool),
         io:fwrite("Stake Pool Inserted ~p~n", [Pool]),
-        ID 
+        PoolHistory = pool_history(),
+        PoolMetadata = pool_metadata(PoolID, HexID),
+        PoolRelay = pool_relay(),
+        PoolDelegator = pool_delegator(),
+        PoolUpdate = pool_update(),
+        PoolID
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
@@ -45,6 +51,60 @@ pool_history() ->
             fees = ""},
         mnesia:write(PoolHistory),
         io:fwrite("~p~n", [PoolHistory])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+pool_metadata(PoolID, HexID) ->
+    Fun = fun() ->
+        PoolMetadata = #pool_metadata{
+            pool_id = PoolID,
+            hex = HexID,
+            url = "",
+            hash = "",
+            ticker = "",
+            name = "",
+            description = "",
+            homepage = ""},
+        mnesia:write(PoolMetadata),
+        io:fwrite("~p~n", [PoolMetadata])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+pool_relay() ->
+    Fun = fun() ->
+        PoolRelay = #pool_relay{
+            ipv4 = "",
+            ipv6 = "",
+            dns = "",
+            dns_srv = "",
+            port = ""},
+        mnesia:write(PoolRelay),
+        io:fwrite("~p~n", [PoolRelay])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+pool_delegator() ->
+    Fun = fun() ->
+        PoolDelegator = #pool_delegator{
+            address = "",
+            live_stake = ""},
+        mnesia:write(PoolDelegator),
+        io:fwrite("~p~n", [PoolDelegator])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+pool_update() ->
+    Fun = fun() ->
+        PoolUpdate = #pool_update{
+            tx_hash = "",
+            cert_index = "",
+            action = ""},
+        mnesia:write(PoolUpdate),
+        io:fwrite("~p~n", [PoolUpdate])
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.

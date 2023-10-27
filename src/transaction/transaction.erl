@@ -86,7 +86,7 @@ utxo_output() ->
 
 utxos() ->
     Fun = fun() ->
-        TransactionUtxos{
+        TransactionUtxos = #transaction_utxos{
             hash = "",
             inputs = utxo_input(),
             outputs = utxo_output()},

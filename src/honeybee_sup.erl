@@ -60,6 +60,18 @@ start_link() ->
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
 
+    mnesia:create_table(network, [{attributes, record_info(fields, network)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(network_supply, [{attributes, record_info(fields, network_supply)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(network_stake, [{attributes, record_info(fields, network_stake)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
     mnesia:create_table(pool, [{attributes, record_info(fields, pool)},
                                {disc_copies, [node()]},
                                {type, ordered_set}]),
@@ -68,13 +80,29 @@ start_link() ->
                                        {disc_copies, [node()]},
                                        {type, ordered_set}]),
 
+    mnesia:create_table(pool_metadata, [{attributes, record_info(fields, pool_metadata)},
+                                        {disc_copies, [node()]},
+                                        {type, ordered_set}]),
+
+    mnesia:create_table(pool_relay, [{attributes, record_info(fields, pool_relay)},
+                                     {disc_copies, [node()]},
+                                     {type, ordered_set}]),
+
+    mnesia:create_table(pool_delegator, [{attributes, record_info(fields, pool_delegator)},
+                                         {disc_copies, [node()]},
+                                         {type, ordered_set}]),
+
+    mnesia:create_table(pool_update, [{attributes, record_info(fields, pool_update)},
+                                         {disc_copies, [node()]},
+                                         {type, ordered_set}]),
+
     mnesia:create_table(transaction, [{attributes, record_info(fields, transaction)},
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
 
     mnesia:create_table(utxo_input, [{attributes, record_info(fields, utxo_input)},
-                                  {disc_copies, [node()]},
-                                  {type, ordered_set}]),
+                                     {disc_copies, [node()]},
+                                     {type, ordered_set}]),
 
     mnesia:create_table(utxo_output, [{attributes, record_info(fields, utxo_output)},
                                   {disc_copies, [node()]},

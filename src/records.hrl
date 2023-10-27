@@ -218,7 +218,7 @@
     inputs, % Transaction inputs
     outputs % Transaction outputs
 }).
--record(transaction_stake, {
+-record(transaction_stake, { 
     cert_index, % Index of the certificate within the transaction
     address, % Delegation stake address
     registration % Registration boolean, false if deregistration
@@ -306,7 +306,7 @@
     id 
 }).
 -record(pool, {
-    pool_id, % pool ID
+    pool_id, % Bech32 encoded pool ID
     hex, % Hexadecimal pool ID
     vrf_key, % VRF key hash
     blocks_minted, % Total minted blocks
@@ -360,9 +360,25 @@
     cert_index, % Certificate within the transaction.
     action % Action in the certificate.
 }).
+-record(pool_retire, {
+    pool_id, % Bech32 encoded pool ID
+    epoch % Retirement epoch number
+}).
 -record(network, {
-    supply,
-    stake 
+    supply, % Current live stake in Lovelaces
+    stake  % Current active stake in Lovelaces
+}).
+-record(network_supply, {
+    max, % Maximum supply in Lovelaces
+    total, % Current total (max supply - reserves) supply in Lovelaces
+    circulating, % Current circulating (UTXOs + withdrawables) supply in Lovelaces
+    locked, % Current supply locked by scripts in Lovelaces
+    treasury, % Current supply locked in treasury
+    reserves % Current supply locked in reserves
+}).
+-record(network_stake, {
+    live, % Current live stake in Lovelaces
+    active % Current active stake in Lovelaces
 }).
 -record(hb_node, {
     host,
