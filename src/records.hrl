@@ -46,7 +46,7 @@
     unit, % Format: Concatenation of asset `policy_id` and hex-encoded `asset_name`.
     quantity % The quantity of the unit.
 }).
--record(address, {
+-record(address, { 
     address, % Bech32 encoded addresses.
     amount, % Sum of all owned assets.
     stake_address, % Stake address that controls the key.
@@ -82,6 +82,52 @@
     stake_address, % Stake address.
     pool_id, % Bech32 prefix of the pool delegated to.
     amount % Amount of active delegated stake in Lovelaces.
+}).
+-record(asset_details, {
+    asset, % Hex-encoded asset full name
+    policy_id, % Policy ID of the asset
+    asset_name, % Hex-encoded asset name of the asset
+    fingerprint, % CIP14 based user-facing fingerprint
+    quantity, % Current asset quantity
+    initial_mint_tx_hash, % ID of the initial minting transaction
+    mint_or_burn_count, % Count of mint and burn transactions
+    onchain_metadata, % On-chain metadata stored in the minting transaction under label 721
+    metadata
+}).
+-record(asset, {
+    asset, % Format: Concatenation of asset `policy_id` and hex-encoded `asset_name`.
+    quantity % Current asset quantity
+}).
+-record(asset_address, {
+    address, % Address containing the specific asset
+    quantity % Asset quantity on the specific address
+}).
+-record(asset_history, {
+    tx_hash, % Hash of the transaction containing the asset action
+    amount, % Asset amount of the specific action
+    action % Action executed upon the asset policy
+}).
+-record(asset_metadata, {
+    name, % Asset name
+    description, % Asset description
+    ticker,
+    url, % Asset website
+    logo, % Base64 encoded logo of the asset
+    decimals % Number of decimal places of the asset unit
+}).
+-record(asset_onchain_metadata, {
+    name, % Name of the asset
+    image % URI of the associated asset
+}).
+-record(asset_policy, {
+    asset,
+    quantity
+}).
+-record(asset_transaction, {
+    tx_hash, % Hash of the transaction
+    tx_index, % Transaction index within the block
+    block_height, % Block height
+    block_time % Block creation time in UNIX time
 }).
 -record(block, {
     id,

@@ -1,11 +1,11 @@
 -module(address).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, address_total/0, address_utxo/0, address_transaction/0]).
+-export([insert/0, address_total/1, address_utxo/1, address_transaction/0]).
 
 insert() ->
     Fun = fun() ->
-        RandAddress = random_address:generate(40),
+        RandAddress = bech32_id:generate(30),
         Bech32Address = bech32_id:generate(22),
         Address = #address{
             address = RandAddress,
@@ -13,16 +13,19 @@ insert() ->
             stake_address = Bech32Address,
             type = undefined},
         mnesia:write(Address),
-        io:fwrite("Address Generated: ~p~n", [Address])
+        io:fwrite("Address Generated: ~p~n", [Address]),
+        address_total(RandAddress),
+        address_utxo(RandAddress),
+        address_transaction(),
+        RandAddress
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-address_total() ->
+address_total(RandAddress) ->
     Fun = fun() ->
-        Bech32Address = bech32_id:generate(30),
         AddressTotal = #address_total{
-            address = Bech32Address,
+            address = RandAddress,
             received_sum = 0,
             sent_sum = 0,
             tx_count = 0},
@@ -32,11 +35,10 @@ address_total() ->
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-address_utxo() ->
+address_utxo(RandAddress) ->
     Fun = fun() ->
-        Bech32Address = bech32_id:generate(28),
         AddressUtxo = #address_utxo{
-            address = Bech32Address,
+            address = RandAddress,
             tx_hash = "",
             output_index = 0,
             amount = 0,

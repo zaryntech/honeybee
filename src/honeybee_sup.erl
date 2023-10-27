@@ -52,6 +52,26 @@ start_link() ->
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
 
+    mnesia:create_table(asset_details, [{attributes, record_info(fields, asset_details)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(asset_address, [{attributes, record_info(fields, asset_address)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(asset_history, [{attributes, record_info(fields, asset_history)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(asset_metadata, [{attributes, record_info(fields, asset_metadata)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(asset_onchain_metadata, [{attributes, record_info(fields, asset_onchain_metadata)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
     mnesia:create_table(block, [{attributes, record_info(fields, block)},
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
