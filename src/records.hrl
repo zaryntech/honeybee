@@ -160,41 +160,42 @@
     active_stake % Sum of all the active stakes within the epoch in Lovelaces.
 }).
 -record(epoch_parameters, {
-    epoch,
-    min_fee_a,
-    min_fee_b,
-    max_block_size,
-    max_tx_size,
-    max_block_header_size,
-    key_deposit,
-    pool_deposit,
-    e_max,
-    n_opt,
-    a0,
-    rho,
-    tau,
-    decentralisation_param,
-    extra_entropy,
-    protocol_major_ver,
-    protocol_minor_ver,
-    min_utxo,
-    min_pool_cost,
-    nonce,
-    price_mem,
-    price_step,
-    max_tx_ex_mem,
-    max_tx_ex_steps,
-    max_block_ex_mem,
-    max_block_ex_steps,
-    max_val_size,
-    collateral_percent,
-    max_collateral_inputs,
-    coins_per_utxo_word
+    epoch, % Epoch number
+    min_fee_a, % The linear factor for the minimum fee calculation for given epoch
+    min_fee_b, % The constant factor for the minimum fee calculation
+    max_block_size, % Maximum block body size in Bytes
+    max_tx_size, % Maximum transaction size
+    max_block_header_size, % Maximum block header size
+    key_deposit, % The amount of a key registration deposit in Lovelaces
+    pool_deposit, % The amount of a pool registration deposit in Lovelaces
+    e_max, % Epoch bound on pool retirement
+    n_opt, % Desired number of pools
+    a0, % Pool pledge influence
+    rho, % Monetary expansion
+    tau, % Treasury expansion
+    decentralisation_param, % Percentage of blocks produced by federated nodes
+    extra_entropy, % Seed for extra entropy
+    protocol_major_ver, % Accepted protocol major version
+    protocol_minor_ver, % Accepted protocol minor version
+    min_utxo, % Minimum UTXO value
+    min_pool_cost, % Minimum stake cost forced on the pool
+    nonce, % Epoch number only used once
+    cost_models, % Cost models parameters for Plutus Core scripts
+    price_mem, % The per word cost of script memory usage
+    price_step, % The cost of script execution step usage
+    max_tx_ex_mem, % The maximum number of execution memory allowed to be used in a single transaction
+    max_tx_ex_steps, % he maximum number of execution steps allowed to be used in a single transaction
+    max_block_ex_mem, % The maximum number of execution memory allowed to be used in a single block
+    max_block_ex_steps, % The maximum number of execution steps allowed to be used in a single block
+    max_val_size, % The maximum Val size
+    collateral_percent, % The percentage of the transactions fee which must be provided as collateral when including non-native scripts
+    max_collateral_inputs, % The maximum number of collateral inputs allowed in a transaction
+    coins_per_utxo_size % The cost per UTxO size. Cost per UTxO *word* for Alozno. Cost per UTxO *byte* for Babbage and later
 }).
 -record(epoch_stake, {
-    stake_address,
-    pool_id,
-    amount
+    stake_address, % Stake address
+    pool_id, % Bech32 prefix of the pool delegated to
+    amount % Amount of active delegated stake in Lovelaces
 }).
 -record(epoch_stake_pool, {
     stake_address,
@@ -234,6 +235,33 @@
     privKey,
     balance,
     transaction = []
+}).
+-record(metadata_txs_label, {
+    label, % Metadata label.
+    cip10, % CIP10 defined description.
+    count % The count of metadata entries with a specific label.
+}).
+-record(metadata_txs_label_json, {
+    tx_hash, % Transaction hash that contains the specific metadata.
+    json_metadata % Content of the JSON metadata.
+}).
+-record(metadata_txs_label_cbor, {
+    tx_hash, % Transaction hash that contains the specific metadata.
+    cbor_metadata % Content of the CBOR metadata.
+}).
+-record(script, {
+    script_hash,
+    type,
+    serialised_size
+}).
+-record(script_redeemer, {
+    tx_hash, % Hash of the transaction
+    tx_index, % Index of the redeemer within a transaction
+    purpose, % Validation purpose
+    redeemer_data_hash, % Datum hash of the redeemer
+    unit_mem, % The budget in Memory to run a script
+    unit_steps, % The budget in Steps to run a script
+    fee % The fee consumed to run the script
 }).
 -record(transaction, {
     id,

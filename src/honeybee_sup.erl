@@ -76,6 +76,22 @@ start_link() ->
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
 
+    mnesia:create_table(epoch, [{attributes, record_info(fields, epoch)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(epoch_parameters, [{attributes, record_info(fields, epoch_parameters)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(epoch_stake, [{attributes, record_info(fields, epoch_stake)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
+    mnesia:create_table(epoch_stake_pool, [{attributes, record_info(fields, epoch_stake_pool)},
+                                  {disc_copies, [node()]},
+                                  {type, ordered_set}]),
+
     mnesia:create_table(genesis, [{attributes, record_info(fields, genesis)},
                                   {disc_copies, [node()]},
                                   {type, ordered_set}]),
