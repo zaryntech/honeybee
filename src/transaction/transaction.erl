@@ -1,9 +1,12 @@
 -module(transaction).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, calculateHash/1, byte_sizee/1, utxo_input/0, utxo_output/0]).
+-export([insert/0, calculateHash/1, byte_sizee/1, transaction_stake/0,
+transaction_delegation/0, transaction_withdrawal/0, transaction_mir/0,
+transaction_pool_update/0, transaction_pool_retire/0, transaction_redeemer/0,
+transaction_utxos/0, utxo_input/0, utxo_output/0]).
 
-insert() ->
+insert() -> 
     Fun = fun() -> 
         ID = nanoid:gen(),
         Transaction = #transaction{
@@ -55,6 +58,113 @@ byte_sizee(Term) ->
     X = term_to_binary(Term),
     Y = byte_size(X),
     Y.
+
+transaction_stake() ->
+    Fun = fun() ->
+        TransactionStake = #transaction_stake{
+            cert_index = "",
+            address = "",
+            registration = ""},
+        mnesia:write(TransactionStake),
+        io:fwrite("~p~n", [TransactionStake]) 
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_delegation() ->
+    Fun = fun() ->
+        TransactinDelegation = #transaction_delegation{
+            cert_index = "",
+            address = "",
+            pool_id = "",
+            active_epoch = ""},
+        mnesia:write(TransactinDelegation),
+        io:fwrite("~p~n", [TransactinDelegation])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_withdrawal() ->
+    Fun = fun() ->
+        TransactinWithdrawal = #transaction_withdrawal{
+            address = "",
+            amount = ""},
+        mnesia:write(TransactinWithdrawal),
+        io:fwrite("~p~n", [TransactinWithdrawal])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_mir() ->
+    Fun = fun() ->
+        TransactinMir = #transaction_mir{
+            pot = "",
+            cert_index = "",
+            address = "",
+            amount = ""},
+        mnesia:write(TransactinMir),
+        io:fwrite("~p~n", [TransactinMir])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_pool_update() ->
+    Fun = fun() ->
+        TransactinPoolUpdate = #transaction_pool_update{
+            cert_index = "",
+            pool_id = "",
+            vrf_key = "",
+            pledge = "",
+            margin_cost = "",
+            fixed_cost = "",
+            reward_account = "",
+            owners = "",
+            metadata = "",
+            relays = "",
+            active_epoch = ""},
+        mnesia:write(TransactinPoolUpdate),
+        io:fwrite("~p~n", [TransactinPoolUpdate])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_pool_retire() ->
+    Fun = fun() ->
+        TransactinPoolRetire = #transaction_pool_retire{
+            cert_index = "",
+            pool_id = "",
+            retiring_epoch = ""},
+        mnesia:write(TransactinPoolRetire),
+        io:fwrite("~p~n", [TransactinPoolRetire])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_redeemer() ->
+    Fun = fun() ->
+        TransactionRedeemer = #transaction_redeemer{
+            tx_index = "",
+            purpose = "",
+            unit_mem = "",
+            unit_steps = "",
+            fee = ""},
+        mnesia:write(TransactionRedeemer),
+        io:fwrite("~p~n", [TransactionRedeemer])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+transaction_utxos() ->
+    Fun = fun() ->
+        TransactinUtxos = #transaction_utxos{
+            hash = "",
+            inputs = "",
+            outputs = ""},
+        mnesia:write(TransactinUtxos),
+        io:fwrite("~p~n", [TransactinUtxos])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
 
 utxo_input() ->
     Fun = fun() ->

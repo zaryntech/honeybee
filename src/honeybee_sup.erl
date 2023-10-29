@@ -144,6 +144,38 @@ start_link() ->
                                       {disc_copies, [node()]},
                                       {type, ordered_set}]),
 
+    mnesia:create_table(transaction_stake, [{attributes, record_info(fields, transaction_stake)},
+                                            {disc_copies, [node()]},
+                                            {type, ordered_set}]),
+
+    mnesia:create_table(transaction_delegation, [{attributes, record_info(fields, transaction_delegation)},
+                                                 {disc_copies, [node()]},
+                                                 {type, ordered_set}]),
+
+    mnesia:create_table(transaction_withdrawal, [{attributes, record_info(fields, transaction_withdrawal)},
+                                                 {disc_copies, [node()]},
+                                                 {type, ordered_set}]),
+
+    mnesia:create_table(transaction_mir, [{attributes, record_info(fields, transaction_mir)},
+                                          {disc_copies, [node()]},
+                                          {type, ordered_set}]),
+
+    mnesia:create_table(transaction_pool_update, [{attributes, record_info(fields, transaction_pool_update)},
+                                                  {disc_copies, [node()]},
+                                                  {type, ordered_set}]),
+
+    mnesia:create_table(transaction_pool_retire, [{attributes, record_info(fields, transaction_pool_retire)},
+                                                  {disc_copies, [node()]},
+                                                  {type, ordered_set}]),
+
+    mnesia:create_table(transaction_redeemer, [{attributes, record_info(fields, transaction_redeemer)},
+                                               {disc_copies, [node()]},
+                                               {type, ordered_set}]),
+
+    mnesia:create_table(transaction_utxos, [{attributes, record_info(fields, transaction_utxos)},
+                                            {disc_copies, [node()]},
+                                            {type, ordered_set}]),
+
     mnesia:create_table(utxo_input, [{attributes, record_info(fields, utxo_input)},
                                      {disc_copies, [node()]},
                                      {type, ordered_set}]),
@@ -151,10 +183,6 @@ start_link() ->
     mnesia:create_table(utxo_output, [{attributes, record_info(fields, utxo_output)},
                                       {disc_copies, [node()]},
                                       {type, ordered_set}]),
-
-    mnesia:create_table(transaction_utxos, [{attributes, record_info(fields, transaction_utxos)},
-                                            {disc_copies, [node()]},
-                                            {type, ordered_set}]),
 
     supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 

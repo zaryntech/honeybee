@@ -53,7 +53,7 @@
     stake_address, % Stake address that controls the key.
     type % Address era
 }).
--record(address_total, {
+-record(address_total, { 
     address, % Bech32 encoded address
     received_sum, % Sum of all transaction received assets.
     sent_sum, % Sum of all transaction sent assets.
