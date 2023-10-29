@@ -2,23 +2,23 @@
     stake_address, % Bech32 stake address
     active, % Balance of the account in Lovelaces.
     active_epoch, % Epoch of the most recent action
-    controlled_amount,
+    controlled_amount, % Balance of the account in Lovelaces
     rewards_sum, % Sum of all funds rewards for the account
     withdrawals_sum, % Sum of all the withdrawals for the account
     reserves_sum, % Sum of all funds from reserves for the account
     treasury_sum, % Sum of all funds from treasury for the account
     withdrawable_amount, % Sum of available rewards that haven't been withdrawn yet 
     pool_id
-}).
+}). 
 -record(account_reward, {
     epoch, % Epoch of the associated reward.
     amount, % Rewards for given epoch in Lovelaces.
     pool_id, % Bech32 pool ID being delegated to.
-    type
+    type % RewardType -> Leader | Member | PoolDepositRefund
 }).
 -record(account_history, {
     active_epoch, % Epoch of the associated reward.
-    amount, % Rewards for given epoch in Lovelaces.
+    amount, % Stake amount in Lovelaces
     pool_id  % Bech32 pool ID being delegated to.
 }).
 -record(account_delegation, {
@@ -29,7 +29,7 @@
 }).
 -record(account_registration, {
     tx_hash, %  Hash of the transaction containing the (de)registration certificate.
-    action % Action in the certificate.
+    action % Action in the certificate. Registration action -> Registered | Deregistered
 }).
 -record(account_withdrawal, {
     tx_hash, % Hash of the transaction containing the withdrawal.
@@ -39,6 +39,7 @@
     tx_hash, % Hash of the transaction containing the MIR.
     amount % MIR amount in Lovelaces.
 }).
+
 -record(account_address, {
     address % Address associated with the stake key.
 }).
@@ -83,6 +84,10 @@
     pool_id, % Bech32 prefix of the pool delegated to.
     amount % Amount of active delegated stake in Lovelaces.
 }).
+-record(asset, {
+    asset, % Format: Concatenation of asset `policy_id` and hex-encoded `asset_name`.
+    quantity % Current asset quantity
+}).
 -record(asset_details, {
     asset, % Hex-encoded asset full name
     policy_id, % Policy ID of the asset
@@ -93,10 +98,6 @@
     mint_or_burn_count, % Count of mint and burn transactions
     onchain_metadata, % On-chain metadata stored in the minting transaction under label 721
     metadata
-}).
--record(asset, {
-    asset, % Format: Concatenation of asset `policy_id` and hex-encoded `asset_name`.
-    quantity % Current asset quantity
 }).
 -record(asset_address, {
     address, % Address containing the specific asset
@@ -250,11 +251,13 @@
     cbor_metadata % Content of the CBOR metadata.
 }).
 -record(script, {
-    script_hash,
-    type,
-    serialised_size
+    id,
+    script_hash, % Hash of the script
+    type, % Type of the script language -> PlutusV1 | PlutusV2 | Timelock
+    serialised_size % The size of the CBOR serialised script, if a Plutus script
 }).
 -record(script_redeemer, {
+    id,
     tx_hash, % Hash of the transaction
     tx_index, % Index of the redeemer within a transaction
     purpose, % Validation purpose
@@ -264,7 +267,7 @@
     fee % The fee consumed to run the script
 }).
 -record(transaction, {
-    id,
+    id, % Transactin ID
     hash, % Transaction hash
     block, % Block hash
     block_height, % Block number
@@ -439,10 +442,12 @@
     epoch % Retirement epoch number
 }).
 -record(network, {
+    id, % Network ID
     supply, % Current live stake in Lovelaces
     stake  % Current active stake in Lovelaces
 }).
 -record(network_supply, {
+    id, % Network ID
     max, % Maximum supply in Lovelaces
     total, % Current total (max supply - reserves) supply in Lovelaces
     circulating, % Current circulating (UTXOs + withdrawables) supply in Lovelaces
@@ -451,6 +456,7 @@
     reserves % Current supply locked in reserves
 }).
 -record(network_stake, {
+    id, % Network ID
     live, % Current live stake in Lovelaces
     active % Current active stake in Lovelaces
 }).

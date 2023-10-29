@@ -1,22 +1,26 @@
 -module(network).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, network_supply/0, network_stake/0]).
+-export([insert/0, network_supply/1, network_stake/1]).
 
 insert() ->
     Fun = fun() ->
+        ID = nanoid:gen(),
         Network = #network{
-            supply = network_supply(),
-            stake = network_stake()},
+            id = ID,
+            supply = network_supply(ID),
+            stake = network_stake(ID)},
         mnesia:write(Network),
-        io:fwrite("~p~n", [Network])
+        io:fwrite("~p~n", [Network]),
+        ID 
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-network_supply() ->
+network_supply(ID) ->
     Fun = fun() ->
         NetworkSupply = #network_supply{
+            id = ID,
             max = "",
             total = "",
             circulating = "",
@@ -29,9 +33,10 @@ network_supply() ->
     {atomic, Res} = mnesia:transaction(Fun),
     Res.
 
-network_stake() ->
+network_stake(ID) ->
     Fun = fun() ->
         NetworkStake = #network_stake{
+            id = ID,
             live = "",
             active = ""},
         mnesia:write(NetworkStake),

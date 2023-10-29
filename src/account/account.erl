@@ -2,7 +2,7 @@
 -include("../records.hrl").
 -author("Zaryn Technologies").
 -export([insert/0, account_reward/1, account_history/1, account_delegation/1,
-account_registration/0]).
+account_registration/0, account_mir/0]).
 
 insert() ->
     Fun = fun() ->
@@ -12,7 +12,7 @@ insert() ->
             stake_address = Bech32Address,
             active = true,
             active_epoch = 0,
-            controlled_amount = "",
+            controlled_amount = 0,
             rewards_sum = "",
             withdrawals_sum = "",
             reserves_sum = "",
@@ -74,6 +74,17 @@ account_registration() ->
             action = ""},
         mnesia:write(AccountRegistration),
         io:fwrite("~p~n", [AccountRegistration])
+    end,
+    {atomic, Res} = mnesia:transaction(Fun),
+    Res.
+
+account_mir() ->
+    Fun = fun() ->
+        AccountMir = #account_mir{
+            tx_hash = "",
+            amount = ""},
+        mnesia:write(AccountMir),
+        io:fwrite("~p~n", [AccountMir])
     end,
     {atomic, Res} = mnesia:transaction(Fun),
     Res.

@@ -1,10 +1,10 @@
 -module(asset).
 -include("../records.hrl").
 -author("Zaryn Technologies").
--export([insert/0, asset_address/0, asset_history/0, asset_transaction/0, asset_metadata/0, 
-asset_onchain_metadata/0]).
+-export([asset_details/0, asset_address/0, asset_history/0, asset_transaction/0, 
+asset_metadata/0, asset_onchain_metadata/0]).
 
-insert() ->
+asset_details() ->
     Fun = fun() ->
         AssetDetails = #asset_details{
             asset = "",

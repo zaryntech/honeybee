@@ -78,7 +78,6 @@ get_previous_block() ->
     LatestBlockID = get_latest_block_id(),
     Block = get_block_by_id(LatestBlockID),
     Block.
-
 % Get the Block Info by BlockID
 get_block_by_id(ID) ->
     Res = mnesia:transaction(
